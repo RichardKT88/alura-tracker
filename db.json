@@ -15,13 +15,13 @@
   ],
   "tarefas": [
     {
-      "id": 1,
       "duracaoEmSegundos": 120,
       "descricao": "Configuração do ambiente",
       "projeto": {
         "id": 1,
         "nome": "Alura Tracker 3.0"
-      }
+      },
+      "id": 1
     },
     {
       "duracaoEmSegundos": 2,
@@ -31,6 +31,15 @@
         "id": 2
       },
       "id": 2
+    },
+    {
+      "duracaoEmSegundos": 2,
+      "descricao": "Teste",
+      "projeto": {
+        "nome": "Estudos Pessoais",
+        "id": 3
+      },
+      "id": 3
     }
   ]
 }

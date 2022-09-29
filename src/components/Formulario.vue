@@ -8,11 +8,7 @@
         <div class="select">
           <select v-model="idProjeto">
             <option value="">Selecione o projeto</option>
-            <option
-              :value="projeto.id"
-              v-for="projeto in projetos"
-              :key="projeto.id"
-            >
+            <option :value="projeto.id" v-for="projeto in projetos" :key="projeto.id">
               {{ projeto.nome }}
             </option>
           </select>
@@ -27,7 +23,7 @@
 
 <script lang="ts">
 import { key } from "@/store";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import { useStore } from "vuex";
 import Temporizador from "./Temporizador.vue";
 
@@ -37,26 +33,44 @@ export default defineComponent({
   components: {
     Temporizador,
   },
-  data() {
-    return {
-      descricao: '',
-      idProjeto: ''
-    }
-  },
-  methods: {
-    salvarTarefa(tempoDecorrido: number): void {
-      this.$emit('aoSalvarTarefa', {
-        duracaoEmSegundos: tempoDecorrido,
-        descricao: this.descricao,
-        projeto: this.projetos.find(proj => proj.id == this.idProjeto)
-      })
-      this.descricao = ''
-    }
-  },
-  setup () {
+  // data() {
+  //   return {
+  //     descricao: '',
+  //     idProjeto: ''
+  //   }
+  // },
+  // methods: {
+  //   salvarTarefa(tempoDecorrido: number): void {
+  //     this.$emit('aoSalvarTarefa', {
+  //       duracaoEmSegundos: tempoDecorrido,
+  //       descricao: this.descricao,
+  //       projeto: this.projetos.find(proj => proj.id == this.idProjeto)
+  //     })
+  //     this.descricao = ''
+  //   }
+  // },
+  setup(props, { emit }) {
     const store = useStore(key)
+
+    const descricao = ref("");
+    const idProjeto = ref("");
+
+    const projetos = computed(() => store.state.projeto.projetos)
+
+    const salvarTarefa = (tempoDecorrido: number): void => {
+      emit('aoSalvarTarefa', {
+        duracaoEmSegundos: tempoDecorrido,
+        descricao: descricao.value,
+        projeto: projetos.value.find(proj => proj.id == idProjeto.value)
+      })
+      descricao.value = ''
+    }
+
     return {
-      projetos: computed(() => store.state.projeto.projetos)
+      descricao,
+      idProjeto,
+      projetos,
+      salvarTarefa
     }
   }
 
@@ -64,8 +78,8 @@ export default defineComponent({
 </script>
 
 <style>
-  .formulario {
-    color: var(--texto-primario);
-    background-color: var(--bg-primario);
-  }
+.formulario {
+  color: var(--texto-primario);
+  background-color: var(--bg-primario);
+}
 </style>
