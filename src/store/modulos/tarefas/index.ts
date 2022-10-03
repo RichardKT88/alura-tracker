@@ -18,7 +18,7 @@ export const tarefa: Module<EstadoTarefa, Estado> = {
             state.tarefas.push(tarefa)
         },
         [ALTERA_TAREFA](state, tarefa: ITarefa) {
-            const index = state.tarefas.findIndex(t => t.id == t.id)
+            const index = state.tarefas.findIndex(t => t.id == tarefa.id)
             state.tarefas[index] = tarefa
         },
     },
